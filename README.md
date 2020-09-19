@@ -12,3 +12,4 @@
 - Spring Data JPA
 - REST Repositories
 - Spring Security
+- JWT
