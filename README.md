@@ -11,3 +11,4 @@
 - Spring DEV TOOLS
 - Spring Data JPA
 - REST Repositories
+- Spring Security
