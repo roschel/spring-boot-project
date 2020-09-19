@@ -5,10 +5,16 @@
  */
 package curso.api.rest.security;
 
+import curso.api.rest.cursospringrestapi.ApplicationContextLoad;
+import curso.api.rest.model.Usuario;
+import curso.api.rest.repository.UsuarioRepository;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import java.util.Date;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
@@ -53,11 +59,60 @@ public class JWTTokenAutenticacaoService {
                 .compact();
 
         String token = TOKEN_PREFIX + " " + JWT;
-        
+
         /**
          * Adiciona o cabeçalho HTTP
          */
-        
         response.addHeader(HEADER_STRING, token);
+
+        /**
+         * Escreve token como resposta no corpo do http
+         */
+        response.getWriter().write("{\"Authorization\": \"" + token + "\"}");
+    }
+
+    /**
+     * Validando JWT
+     *
+     * Retorna o usuário validado com token ou caso não seja válido retorna null
+     */
+    public Authentication getAuthentication(HttpServletRequest request) {
+
+        /**
+         * recebe o token eniado pelo cabeçalho
+         */
+        String token = request.getHeader(HEADER_STRING);
+
+        if (token != null) {
+
+            /**
+             * Faz a validação do token do usuário na requisição retorna o
+             * usuário. Exemplo: João
+             */
+            String user = Jwts.parser().setSigningKey(SECRET)
+                    .parseClaimsJws(token.replace(TOKEN_PREFIX, ""))
+                    .getBody().getSubject();
+
+            if (user != null) {
+
+                Usuario usuario = ApplicationContextLoad.getApplicationContext()
+                        .getBean(UsuarioRepository.class).findUserByLogin(user);
+
+                if(usuario != null) {
+                    return new UsernamePasswordAuthenticationToken(
+                            usuario.getLogin(), 
+                            usuario.getPassword(),
+                            usuario.getAuthorities()
+                    );
+                }
+
+                /**
+                 * Retorna o usuário logado
+                 */
+            }
+
+        }
+        return null;
+
     }
 }
