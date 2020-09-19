@@ -6,3 +6,4 @@
 /home/joao/Documentos/spring/jdev/cursospringrestapi/src/main/java/curso/api/rest/repository/UsuarioRepository.java
 /home/joao/Documentos/spring/jdev/cursospringrestapi/src/main/java/curso/api/rest/cursospringrestapi/CursospringrestapiApplication.java
 /home/joao/Documentos/spring/jdev/cursospringrestapi/src/main/java/curso/api/rest/security/WebConfigSecurity.java
+/home/joao/Documentos/spring/jdev/cursospringrestapi/src/main/java/curso/api/rest/security/JWTTokenAutenticacaoService.java
