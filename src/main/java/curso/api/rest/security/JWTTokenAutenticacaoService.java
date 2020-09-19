@@ -98,19 +98,14 @@ public class JWTTokenAutenticacaoService {
                 Usuario usuario = ApplicationContextLoad.getApplicationContext()
                         .getBean(UsuarioRepository.class).findUserByLogin(user);
 
-                if(usuario != null) {
+                if (usuario != null) {
                     return new UsernamePasswordAuthenticationToken(
-                            usuario.getLogin(), 
+                            usuario.getLogin(),
                             usuario.getPassword(),
                             usuario.getAuthorities()
                     );
                 }
-
-                /**
-                 * Retorna o usuário logado
-                 */
             }
-
         }
         return null;
 
