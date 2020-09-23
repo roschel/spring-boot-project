@@ -10,6 +10,7 @@ import curso.api.rest.model.Usuario;
 import curso.api.rest.repository.UsuarioRepository;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import java.io.IOException;
 import java.util.Date;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -47,7 +48,7 @@ public class JWTTokenAutenticacaoService {
      * Gerando token de autenticação e adicionando ao cabeçalho e resposta http
      */
     public void addAuthentication(HttpServletResponse response,
-            String username) throws Exception {
+            String username) throws IOException {
 
         /**
          * Montagem do token
