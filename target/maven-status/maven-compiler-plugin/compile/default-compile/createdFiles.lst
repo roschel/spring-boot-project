@@ -1,5 +1,12 @@
-curso/api/rest/controller/IndexController.class
-curso/api/rest/model/Telefone.class
+curso/api/rest/security/JWTTokenAutenticacaoService.class
+curso/api/rest/service/ImplemetacaoUserDetailsService.class
 curso/api/rest/repository/UsuarioRepository.class
+curso/api/rest/security/JWTLoginFilter.class
 curso/api/rest/model/Usuario.class
 curso/api/rest/cursospringrestapi/CursospringrestapiApplication.class
+curso/api/rest/security/JWTApiAuthenticationFilter.class
+curso/api/rest/security/WebConfigSecurity.class
+curso/api/rest/model/Role.class
+curso/api/rest/controller/IndexController.class
+curso/api/rest/model/Telefone.class
+curso/api/rest/cursospringrestapi/ApplicationContextLoad.class

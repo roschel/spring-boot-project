@@ -47,7 +47,7 @@ public class WebConfigSecurity extends WebSecurityConfigurerAdapter {
                 /**
                  * URL logout - Redireciona após o user deslogar do sistema
                  */
-                .anyRequest().authenticated().and().logout().logoutSuccessUrl("index")
+                .anyRequest().authenticated().and().logout().logoutSuccessUrl("/index")
                 /**
                  * Mapeia url de logout e invalida o usuario
                  */

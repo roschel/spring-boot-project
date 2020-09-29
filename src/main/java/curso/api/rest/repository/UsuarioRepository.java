@@ -6,8 +6,8 @@
 package curso.api.rest.repository;
 
 import curso.api.rest.model.Usuario;
-import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -15,7 +15,7 @@ import org.springframework.stereotype.Repository;
  * @author joao
  */
 @Repository
-public interface UsuarioRepository extends JpaRepository<Usuario, Long>{
+public interface UsuarioRepository extends CrudRepository<Usuario, Long>{
     
     @Query("select user from Usuario user where user.login = ?1")
     Usuario findUserByLogin(String login);
