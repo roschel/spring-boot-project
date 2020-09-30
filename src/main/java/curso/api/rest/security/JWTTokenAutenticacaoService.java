@@ -30,7 +30,7 @@ public class JWTTokenAutenticacaoService {
     /**
      * Tempo de validade do token (ms)
      */
-    private static final long EXPIRATION_TIME = 120000;
+    private static final long EXPIRATION_TIME = 86400000;
 
     /**
      * Uma senha unica para compor a autenticação e ajudar na segurança
