@@ -67,6 +67,8 @@ public class JWTTokenAutenticacaoService {
          */
         response.addHeader(HEADER_STRING, token);
 
+        ApplicationContextLoad.getApplicationContext().getBean(UsuarioRepository.class).atualizaTokenUser(JWT,username);
+
         /**
          * Liberando resposta para ports diferentes que usam api ou clientes web
          */
@@ -93,6 +95,8 @@ public class JWTTokenAutenticacaoService {
         try {
             if (token != null) {
 
+                String tokenLimpo = token.replace(TOKEN_PREFIX, "").trim();
+
                 /**
                  * Faz a validação do token do usuário na requisição retorna o
                  * usuário. Exemplo: João
@@ -107,11 +111,13 @@ public class JWTTokenAutenticacaoService {
                             .getBean(UsuarioRepository.class).findUserByLogin(user);
 
                     if (usuario != null) {
-                        return new UsernamePasswordAuthenticationToken(
-                                usuario.getLogin(),
-                                usuario.getPassword(),
-                                usuario.getAuthorities()
-                        );
+                        if (tokenLimpo.equalsIgnoreCase(usuario.getToken())){
+                            return new UsernamePasswordAuthenticationToken(
+                                    usuario.getLogin(),
+                                    usuario.getPassword(),
+                                    usuario.getAuthorities()
+                            );
+                        }
                     }
                 }
             }

@@ -53,6 +53,16 @@ public class Usuario implements UserDetails {
                             value = ConstraintMode.CONSTRAINT)))
     private List<Role> roles;
 
+    private String token;
+
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
+    }
+
     /* Papeis de acesso*/
     public Long getId() {
         return id;
