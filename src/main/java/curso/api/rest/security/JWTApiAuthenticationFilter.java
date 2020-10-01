@@ -14,6 +14,7 @@ import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 /**
@@ -27,7 +28,8 @@ public class JWTApiAuthenticationFilter extends GenericFilterBean {
         /**
          * Estabelece a autenticação para a requisição
          */
-        Authentication authentication = new JWTTokenAutenticacaoService().getAuthentication((HttpServletRequest) request);
+        Authentication authentication = new JWTTokenAutenticacaoService().getAuthentication((HttpServletRequest) request,
+                (HttpServletResponse) response);
 
         /**
          * Coloca o processo de autenticação no spring security

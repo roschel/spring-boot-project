@@ -10,17 +10,18 @@ import curso.api.rest.model.Usuario;
 import curso.api.rest.repository.UsuarioRepository;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+
 import java.io.IOException;
 import java.util.Date;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 /**
- *
  * @author joao
  */
 @Service
@@ -48,7 +49,7 @@ public class JWTTokenAutenticacaoService {
      * Gerando token de autenticação e adicionando ao cabeçalho e resposta http
      */
     public void addAuthentication(HttpServletResponse response,
-            String username) throws IOException {
+                                  String username) throws IOException {
 
         /**
          * Montagem do token
@@ -67,6 +68,11 @@ public class JWTTokenAutenticacaoService {
         response.addHeader(HEADER_STRING, token);
 
         /**
+         * Liberando resposta para ports diferentes que usam api ou clientes web
+         */
+        liberacaoCors(response);
+
+        /**
          * Escreve token como resposta no corpo do http
          */
         response.getWriter().write("{\"Authorization\": \"" + token + "\"}");
@@ -74,10 +80,10 @@ public class JWTTokenAutenticacaoService {
 
     /**
      * Validando JWT
-     *
+     * <p>
      * Retorna o usuário validado com token ou caso não seja válido retorna null
      */
-    public Authentication getAuthentication(HttpServletRequest request) {
+    public Authentication getAuthentication(HttpServletRequest request, HttpServletResponse response) {
 
         /**
          * recebe o token eniado pelo cabeçalho
@@ -108,7 +114,26 @@ public class JWTTokenAutenticacaoService {
                 }
             }
         }
+        liberacaoCors(response);
         return null;
 
+    }
+
+    private void liberacaoCors(HttpServletResponse response) {
+        if (response.getHeader("Access-Control-Allow-Origin") == null) {
+            response.addHeader("Access-Control-Allow-Origin", "*");
+        }
+
+        if (response.getHeader("Access-Control-Allow-Headers") == null) {
+            response.addHeader("Access-Control-Allow-Headers", "*");
+        }
+
+        if (response.getHeader("Access-Control-Request-Headers") == null) {
+            response.addHeader("Access-Control-Request-Headers", "*");
+        }
+
+        if (response.getHeader("Access-Control-Allow-Methods") == null){
+            response.addHeader("Access-Control-Allow-Methods", "*");
+        }
     }
 }
