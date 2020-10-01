@@ -90,30 +90,37 @@ public class JWTTokenAutenticacaoService {
          */
         String token = request.getHeader(HEADER_STRING);
 
-        if (token != null) {
+        try {
+            if (token != null) {
 
-            /**
-             * Faz a validação do token do usuário na requisição retorna o
-             * usuário. Exemplo: João
-             */
-            String user = Jwts.parser().setSigningKey(SECRET)
-                    .parseClaimsJws(token.replace(TOKEN_PREFIX, ""))
-                    .getBody().getSubject();
+                /**
+                 * Faz a validação do token do usuário na requisição retorna o
+                 * usuário. Exemplo: João
+                 */
+                String user = Jwts.parser().setSigningKey(SECRET)
+                        .parseClaimsJws(token.replace(TOKEN_PREFIX, ""))
+                        .getBody().getSubject();
 
-            if (user != null) {
+                if (user != null) {
 
-                Usuario usuario = ApplicationContextLoad.getApplicationContext()
-                        .getBean(UsuarioRepository.class).findUserByLogin(user);
+                    Usuario usuario = ApplicationContextLoad.getApplicationContext()
+                            .getBean(UsuarioRepository.class).findUserByLogin(user);
 
-                if (usuario != null) {
-                    return new UsernamePasswordAuthenticationToken(
-                            usuario.getLogin(),
-                            usuario.getPassword(),
-                            usuario.getAuthorities()
-                    );
+                    if (usuario != null) {
+                        return new UsernamePasswordAuthenticationToken(
+                                usuario.getLogin(),
+                                usuario.getPassword(),
+                                usuario.getAuthorities()
+                        );
+                    }
                 }
             }
+        } catch (io.jsonwebtoken.ExpiredJwtException e) {
+            try {
+                response.getOutputStream().println("Seu token está expirado, faça um novo login.");
+            } catch (IOException e1) {}
         }
+
         liberacaoCors(response);
         return null;
 
@@ -132,7 +139,7 @@ public class JWTTokenAutenticacaoService {
             response.addHeader("Access-Control-Request-Headers", "*");
         }
 
-        if (response.getHeader("Access-Control-Allow-Methods") == null){
+        if (response.getHeader("Access-Control-Allow-Methods") == null) {
             response.addHeader("Access-Control-Allow-Methods", "*");
         }
     }
