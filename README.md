@@ -13,3 +13,5 @@
 - REST Repositories
 - Spring Security
 - JWT
+- Hiraki
+- Gson google
