@@ -6,6 +6,7 @@
 package curso.api.rest.controller;
 
 import curso.api.rest.model.Usuario;
+import curso.api.rest.model.UsuarioDTO;
 import curso.api.rest.repository.UsuarioRepository;
 import java.util.List;
 import java.util.Optional;
@@ -43,12 +44,12 @@ public class IndexController {
     
        
     @GetMapping(value = "/{id}", produces = "application/json")
-    public ResponseEntity<Usuario> get(@PathVariable(value="id") Long id) {
+    public ResponseEntity<UsuarioDTO> get(@PathVariable(value="id") Long id) {
         
         
         Optional<Usuario> usuario = usuarioRepository.findById(id);
         
-        return new ResponseEntity(usuario.get(),HttpStatus.OK);
+        return new ResponseEntity<UsuarioDTO>(new UsuarioDTO(usuario.get()),HttpStatus.OK);
         
     }
     
